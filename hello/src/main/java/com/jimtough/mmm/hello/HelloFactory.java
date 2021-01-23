@@ -1,4 +1,4 @@
-package com.jimtough.mmm;
+package com.jimtough.mmm.hello;
 
 public interface HelloFactory {
 

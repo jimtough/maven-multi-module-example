@@ -1,4 +1,4 @@
-package com.jimtough.mmm;
+package com.jimtough.mmm.world;
 
 public interface WorldFactory {
 

@@ -1,7 +1,7 @@
 package com.jimtough.mmm.controller;
 
-import com.jimtough.mmm.HelloFactory;
-import com.jimtough.mmm.WorldFactory;
+import com.jimtough.mmm.hello.HelloFactory;
+import com.jimtough.mmm.world.WorldFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

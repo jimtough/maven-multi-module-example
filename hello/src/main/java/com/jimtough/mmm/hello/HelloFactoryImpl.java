@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 class HelloFactoryImpl implements HelloFactory {
 
-	@Override public String getHello() {
+	@Override
+	public String getHello() {
 		log.debug("Someone wants a 'hello'");
 		return "Hello";
 	}

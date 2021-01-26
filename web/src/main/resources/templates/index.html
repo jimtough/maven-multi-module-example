@@ -5,7 +5,11 @@
 	<title>Hello World page</title>
 </head>
 <body>
+<!--/*@thymesVar id="helloString" type="java.util.String"*/-->
+<!--/*@thymesVar id="worldString" type="java.util.String"*/-->
+<!--/*@thymesVar id="currentTime" type="java.time.LocalDateTime"*/-->
 	<h1 th:text="${helloString} + ', ' + ${worldString} + '!'">HELLO WORLD GOES HERE</h1>
 	<h2>This is an unnecessarily complicated way to say Hello World</h2>
+	<h3 th:text="'Current local time: ' + ${currentTime}">CURRENT TIME GOES HERE</h3>
 </body>
 </html>

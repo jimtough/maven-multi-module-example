@@ -9,19 +9,22 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>world</artifactId>
+	<artifactId>data</artifactId>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<spring-boot.repackage.skip>true</spring-boot.repackage.skip>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<!-- The 'core' starter, containing very basic things like logging and Spring annotations -->
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

@@ -17,4 +17,17 @@
 		<spring-boot.repackage.skip>true</spring-boot.repackage.skip>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<artifactId>data</artifactId>
+			<groupId>com.jimtough.mmm</groupId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<!-- The 'core' starter, containing very basic things like logging and Spring annotations -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>

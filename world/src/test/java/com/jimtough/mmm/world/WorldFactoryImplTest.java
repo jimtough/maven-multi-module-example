@@ -11,12 +11,12 @@ class WorldFactoryImplTest {
 
 	@BeforeEach
 	void beforeEach() {
-		worldFactory = new WorldFactoryImpl();
+		worldFactory = new WorldFactoryImpl("werrruld");
 	}
 
 	@Test
 	void testGetWorld() {
-		assertEquals("World", worldFactory.getWorld());
+		assertEquals("werrruld", worldFactory.getWorld());
 	}
 
 }

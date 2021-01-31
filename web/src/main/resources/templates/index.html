@@ -1,15 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Hello World page</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="multi module Maven webapp">
+	<meta name="author" content="Jim Tough">
+
+	<title>mmm-webapp Hello World</title>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		  th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
+	<!-- Font AWESOME! -->
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.css"
+		  th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css} "/>
 </head>
 <body>
-<!--/*@thymesVar id="helloString" type="java.util.String"*/-->
-<!--/*@thymesVar id="worldString" type="java.util.String"*/-->
-<!--/*@thymesVar id="currentTime" type="java.time.LocalDateTime"*/-->
-	<h1 th:text="${helloString} + ', ' + ${worldString} + '!'">HELLO WORLD GOES HERE</h1>
-	<h2>This is an unnecessarily complicated way to say Hello World</h2>
-	<h3 th:text="'Current local time: ' + ${currentTime}">CURRENT TIME GOES HERE</h3>
+	<!--/*@thymesVar id="helloString" type="java.util.String"*/-->
+	<!--/*@thymesVar id="worldString" type="java.util.String"*/-->
+	<!--/*@thymesVar id="currentTime" type="java.time.LocalDateTime"*/-->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-1"></div>
+			<div class="col-xl-10">
+				<div class="alert alert-success text-center mt-3">
+					<span class="display-1" th:text="${helloString} + ', ' + ${worldString} + '!'">HELLO WORLD GOES HERE</span>
+				</div>
+			</div>
+			<div class="col-xl-1"></div>
+		</div>
+		<div class="row">
+			<div class="col-xl-1"></div>
+			<div class="col-xl-10">
+				<div class="alert alert-info text-center">
+					<span class="lead">This is an unnecessarily complicated way to say Hello World</span>
+				</div>
+			</div>
+			<div class="col-xl-1"></div>
+		</div>
+		<div class="row">
+			<div class="col-xl-1"></div>
+			<div class="col-xl-10">
+				<div class="alert alert-info text-center">
+					<span><i class="far fa-clock"></i></span><span> current server time: </span><span><strong th:text="${currentTime}">CURRENT TIME GOES HERE</strong></span>
+				</div>
+			</div>
+			<div class="col-xl-1"></div>
+		</div>
+	</div>
+
+	<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			th:src="@{/webjars/jquery/3.5.1/jquery.slim.min.js}"></script>
+	<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+			th:src="@{/webjars/bootstrap/4.6.0/js/bootstrap.min.js}"></script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 package com.jimtough.mmm.controller;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalField;
+import java.time.temporal.TemporalUnit;
 
 import com.jimtough.mmm.hello.HelloFactory;
 import com.jimtough.mmm.world.WorldFactory;
@@ -27,7 +30,7 @@ public class IndexController {
 	public String getIndexView(Model model) {
 		model.addAttribute("helloString", helloFactory.getHello());
 		model.addAttribute("worldString", worldFactory.getWorld());
-		model.addAttribute("currentTime", LocalDateTime.now());
+		model.addAttribute("currentTime", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 		return "index";
 	}
 

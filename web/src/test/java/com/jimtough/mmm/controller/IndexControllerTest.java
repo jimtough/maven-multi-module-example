@@ -11,11 +11,12 @@ import com.jimtough.mmm.world.WorldFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
@@ -36,14 +37,15 @@ public class IndexControllerTest {
 
 	@BeforeEach
 	void beforeEach() {
-		when(helloFactoryMock.getHello()).thenReturn("HELLO");
-		when(worldFactoryMock.getWorld()).thenReturn("WORLD");
 		indexController = new IndexController(helloFactoryMock, worldFactoryMock);
 	}
 
 	@Test
-	void getIndex() {
-		String viewName = indexController.getIndex(modelMock);
+	void getIndexView() {
+		when(helloFactoryMock.getHello()).thenReturn("HELLO");
+		when(worldFactoryMock.getWorld()).thenReturn("WORLD");
+
+		String viewName = indexController.getIndexView(modelMock);
 
 		ArgumentCaptor<LocalDateTime> ldtArgumentCaptor = ArgumentCaptor.forClass(LocalDateTime.class);
 		assertEquals("index", viewName);
@@ -55,13 +57,42 @@ public class IndexControllerTest {
 	}
 
 	@Test
-	void getIndexWithMockMVC() throws Exception {
+	void redirectToIndexView() {
+		String viewName = indexController.redirectToIndexView();
+
+		assertEquals("redirect:/", viewName);
+	}
+
+	@Test
+	void getIndexViewWithMockMVC() throws Exception {
 		// standaloneSetup creates a MockMvc that is very lightweight, without a Spring application context
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
 
 		mockMvc.perform(get("/"))
 		       .andExpect(status().isOk())
 		       .andExpect(view().name("index"));
+	}
+
+	// Interesting... This MockMVC test yields results that are inconsistent with how the application functions.
+	// If you try to use something like "/index.html" or "/index.htm" in the browser, you get a 404 error.
+	@ParameterizedTest
+	@ValueSource(strings = {"/index", "/index.html", "/index.htm", "/index.anything.you.like.can.go.here"})
+	void redirectToIndexViewWithMockMVC(String url) throws Exception {
+		// standaloneSetup creates a MockMvc that is very lightweight, without a Spring application context
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
+
+		mockMvc.perform(get(url))
+		       .andExpect(status().is3xxRedirection())
+		       .andExpect(view().name("redirect:/"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"/indexxx", "/no-mapping-for-this-guy"})
+	void invalidUrlsWithMockMVC(String url) throws Exception {
+		// standaloneSetup creates a MockMvc that is very lightweight, without a Spring application context
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
+
+		mockMvc.perform(get(url)).andExpect(status().isNotFound());
 	}
 
 }

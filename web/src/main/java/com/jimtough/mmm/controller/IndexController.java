@@ -16,8 +16,15 @@ public class IndexController {
 	private final HelloFactory helloFactory;
 	private final WorldFactory worldFactory;
 
-	@GetMapping(name = "/")
-	public String getIndex(Model model) {
+	// Support sometimes used 'http://myhostname/index' path to home page.
+	@GetMapping("index")
+	public String redirectToIndexView() {
+		return "redirect:/";
+	}
+
+	// Support several typical home page path variants
+	@GetMapping({"","/"})
+	public String getIndexView(Model model) {
 		model.addAttribute("helloString", helloFactory.getHello());
 		model.addAttribute("worldString", worldFactory.getWorld());
 		model.addAttribute("currentTime", LocalDateTime.now());

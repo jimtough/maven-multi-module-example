@@ -19,7 +19,7 @@ public class SiteVisitor extends BaseEntity {
 	private String nickname;
 	private String uppercaseNickname;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "siteVisitor")
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "siteVisitor")
 	private Set<SiteVisit> siteVisits;
 
 }

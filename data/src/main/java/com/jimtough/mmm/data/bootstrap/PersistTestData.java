@@ -3,10 +3,7 @@ package com.jimtough.mmm.data.bootstrap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.jimtough.mmm.data.jpa.entity.Color;
-import com.jimtough.mmm.data.jpa.entity.LanguageSpecificHello;
-import com.jimtough.mmm.data.jpa.entity.SiteVisit;
-import com.jimtough.mmm.data.jpa.entity.SiteVisitor;
+import com.jimtough.mmm.data.jpa.entity.*;
 import com.jimtough.mmm.data.repository.ColorRepository;
 import com.jimtough.mmm.data.repository.LanguageSpecificHelloRepository;
 import com.jimtough.mmm.data.repository.SiteVisitRepository;
@@ -32,9 +29,15 @@ public class PersistTestData implements CommandLineRunner {
 		languageSpecificHelloRepository.saveAll(List.of(english, french));
 		log.info("English and French 'hello' entities persisted to database");
 
-		Color red   = Color.builder().name("red").rgbHexCode("FF0000").build();
-		Color green = Color.builder().name("green").rgbHexCode("00FF00").build();
-		Color blue  = Color.builder().name("blue").rgbHexCode("0000FF").build();
+		Color red   = Color.builder().name("red").rgbHexCode("FF0000")
+				.colorImage(ColorImage.builder().description("image of something red").build())
+				.build();
+		Color green = Color.builder().name("green").rgbHexCode("00FF00")
+				.colorImage(ColorImage.builder().description("image of something green").build())
+				.build();
+		Color blue  = Color.builder().name("blue").rgbHexCode("0000FF")
+				.colorImage(ColorImage.builder().description("image of something blue").build())
+				.build();
 		colorRepository.saveAll(List.of(red, green, blue));
 		log.info("All {} entities persisted to database", Color.class.getSimpleName());
 

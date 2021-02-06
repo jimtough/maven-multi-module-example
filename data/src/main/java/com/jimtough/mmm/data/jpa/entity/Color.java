@@ -1,7 +1,6 @@
 package com.jimtough.mmm.data.jpa.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
 import lombok.*;
 
@@ -15,7 +14,8 @@ public class Color extends BaseEntity {
 
 	private String name;
 	private String rgbHexCode;
-	@Lob
-	private Byte[] image;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private ColorImage colorImage;
 
 }

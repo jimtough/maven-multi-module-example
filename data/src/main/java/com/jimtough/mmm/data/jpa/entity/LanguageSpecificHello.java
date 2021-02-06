@@ -9,11 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-public class LanguageSpecificHello {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class LanguageSpecificHello extends BaseEntity {
 
     private String key;
     private String value;

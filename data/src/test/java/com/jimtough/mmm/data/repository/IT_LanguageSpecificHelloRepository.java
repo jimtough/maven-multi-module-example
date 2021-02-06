@@ -13,7 +13,7 @@ public class IT_LanguageSpecificHelloRepository {
 	LanguageSpecificHelloRepository repo;
 
 	@Test
-	void xxx() {
+	void findOneByKey() {
 		assertFalse(repo.findOneByKey("xxxxxxxx").isPresent());
 	}
 

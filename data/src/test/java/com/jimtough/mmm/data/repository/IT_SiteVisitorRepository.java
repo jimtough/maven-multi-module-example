@@ -14,7 +14,7 @@ public class IT_SiteVisitorRepository {
 	SiteVisitorRepository repo;
 
 	@Test
-	void findOneByName_ThenSave_ThenFindOneByName() {
+	void findOneByUppercaseNickname_ThenSave_ThenFindOneByUppercaseNickname() {
 		assertFalse(repo.findOneByUppercaseNickname("PLOP").isPresent());
 
 		repo.save(SiteVisitor.builder().nickname("plop").uppercaseNickname("PLOP").build());

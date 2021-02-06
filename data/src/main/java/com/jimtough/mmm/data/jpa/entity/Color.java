@@ -12,7 +12,9 @@ import lombok.*;
 @Entity
 public class Color extends BaseEntity {
 
-	private String name;
+	@Enumerated(EnumType.STRING)
+	private ColorName colorName;
+
 	private String rgbHexCode;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

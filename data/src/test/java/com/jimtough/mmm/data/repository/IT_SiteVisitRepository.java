@@ -17,7 +17,7 @@ public class IT_SiteVisitRepository {
 	SiteVisitRepository visitRepo;
 
 	@Test
-	void findOneByName_ThenSave_ThenFindOneByName() {
+	void findAll_ThenSave_ThenFindAll() {
 		assertTrue(visitRepo.findAll().isEmpty());
 
 		SiteVisitor plop = visitorRepo.save(SiteVisitor.builder().nickname("plop").uppercaseNickname("PLOP").build());

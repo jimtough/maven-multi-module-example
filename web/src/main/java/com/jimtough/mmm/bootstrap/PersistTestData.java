@@ -1,4 +1,4 @@
-package com.jimtough.mmm.data.bootstrap;
+package com.jimtough.mmm.bootstrap;
 
 import java.util.List;
 import java.util.Set;
@@ -30,17 +30,10 @@ public class PersistTestData implements CommandLineRunner {
 		languageSpecificHelloRepository.saveAll(List.of(english, french));
 		log.info("English and French 'hello' entities persisted to database");
 
-		Color red   = Color.builder().colorName(ColorName.RED).rgbHexCode("FF0000")
-				.colorImage(ColorImage.builder().description("image of something red").build())
-				.build();
-		Color green = Color.builder().colorName(ColorName.GREEN).rgbHexCode("00FF00")
-				.colorImage(ColorImage.builder().description("image of something green").build())
-				.build();
-		Color blue  = Color.builder().colorName(ColorName.BLUE).rgbHexCode("0000FF")
-				.colorImage(ColorImage.builder().description("image of something blue").build())
-				.build();
-		colorRepository.saveAll(List.of(red, green, blue));
-		log.info("All {} entities persisted to database", Color.class.getSimpleName());
+		// These entities are added to the database via 'data-h2.sql' file
+		Color red   = colorRepository.findOneByColorName(ColorName.RED).get();
+		Color green = colorRepository.findOneByColorName(ColorName.GREEN).get();
+		Color blue  = colorRepository.findOneByColorName(ColorName.BLUE).get();
 
 		SiteVisitor jim = SiteVisitor.builder()
 				.nickname("Jim")

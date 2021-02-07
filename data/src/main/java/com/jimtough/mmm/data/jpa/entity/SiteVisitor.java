@@ -1,8 +1,6 @@
 package com.jimtough.mmm.data.jpa.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import java.util.Set;
 
@@ -21,5 +19,11 @@ public class SiteVisitor extends BaseEntity {
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "siteVisitor")
 	private Set<SiteVisit> siteVisits;
+
+	@ManyToMany
+	@JoinTable(name = "site_visitor_favorite_colors",
+		joinColumns = @JoinColumn(name = "color_id"),
+		inverseJoinColumns = @JoinColumn(name = "site_visitor_id"))
+	private Set<Color> favoriteColors;
 
 }

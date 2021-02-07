@@ -1,6 +1,7 @@
 package com.jimtough.mmm.data.bootstrap;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.jimtough.mmm.data.jpa.entity.*;
@@ -44,6 +45,7 @@ public class PersistTestData implements CommandLineRunner {
 		SiteVisitor jim = SiteVisitor.builder()
 				.nickname("Jim")
 				.uppercaseNickname("Jim".toUpperCase())
+		        .favoriteColors(Set.of(blue, green))
 				.build();
 		siteVisitorRepository.saveAll(List.of(jim));
 		SiteVisit jimVisitA = SiteVisit.builder().siteVisitor(jim).build();

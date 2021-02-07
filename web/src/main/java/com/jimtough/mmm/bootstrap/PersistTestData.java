@@ -1,5 +1,6 @@
 package com.jimtough.mmm.bootstrap;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -25,16 +26,22 @@ public class PersistTestData implements CommandLineRunner {
 	private final SiteVisitRepository siteVisitRepository;
 
 	@Override public void run(final String... args) throws Exception {
+		//-------------------------------------------------------------------------------
 		LanguageSpecificHello english = LanguageSpecificHello.builder().key("en").value("Hello").build();
 		LanguageSpecificHello french = LanguageSpecificHello.builder().key("fr").value("Bonjour").build();
 		languageSpecificHelloRepository.saveAll(List.of(english, french));
 		log.info("English and French 'hello' entities persisted to database");
+		//-------------------------------------------------------------------------------
 
+		//-------------------------------------------------------------------------------
 		// These entities are added to the database via 'data-h2.sql' file
 		Color red   = colorRepository.findOneByColorName(ColorName.RED).get();
 		Color green = colorRepository.findOneByColorName(ColorName.GREEN).get();
 		Color blue  = colorRepository.findOneByColorName(ColorName.BLUE).get();
+		//-------------------------------------------------------------------------------
 
+		//-------------------------------------------------------------------------------
+		// SiteVisitor 'Jim'
 		SiteVisitor jim = SiteVisitor.builder()
 				.nickname("Jim")
 				.uppercaseNickname("Jim".toUpperCase())
@@ -43,11 +50,29 @@ public class PersistTestData implements CommandLineRunner {
 		siteVisitorRepository.saveAll(List.of(jim));
 		SiteVisit jimVisitA = SiteVisit.builder().siteVisitor(jim).build();
 		siteVisitRepository.save(jimVisitA);
-		TimeUnit.MILLISECONDS.sleep(999);
-		SiteVisit jimVisitB = SiteVisit.builder().siteVisitor(jim).build();
+		TimeUnit.MILLISECONDS.sleep(1);
+		SiteVisit jimVisitB = SiteVisit.builder().siteVisitor(jim).visitTimestamp(ZonedDateTime.now().minusYears(2)).build();
 		siteVisitRepository.save(jimVisitB);
-
+		// SiteVisitor 'RedGreen'
+		SiteVisitor redGreen = SiteVisitor.builder()
+		                             .nickname("RedGreen")
+		                             .uppercaseNickname("RedGreen".toUpperCase())
+		                             .favoriteColors(Set.of(red, green))
+		                             .build();
+		siteVisitorRepository.saveAll(List.of(redGreen));
+		SiteVisit redgreenVisitA = SiteVisit.builder().siteVisitor(redGreen).build();
+		siteVisitRepository.save(redgreenVisitA);
+		// SiteVisitor 'MrBlue'
+		SiteVisitor mrBlue = SiteVisitor.builder()
+		                                  .nickname("MrBlue")
+		                                  .uppercaseNickname("MrBlue".toUpperCase())
+		                                  .favoriteColors(Set.of(blue))
+		                                  .build();
+		siteVisitorRepository.saveAll(List.of(mrBlue));
+		SiteVisit mrBlueVisitA = SiteVisit.builder().siteVisitor(mrBlue).build();
+		siteVisitRepository.save(mrBlueVisitA);
 		log.info("All {} entities persisted to database", SiteVisitor.class.getSimpleName());
+		//-------------------------------------------------------------------------------
 	}
 
 }

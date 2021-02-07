@@ -7,7 +7,6 @@ import java.time.ZonedDateTime;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 @AllArgsConstructor
 @NoArgsConstructor

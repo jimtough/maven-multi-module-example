@@ -2,7 +2,7 @@ package com.jimtough.mmm;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.jimtough.mmm.controller.IndexController;
+import com.jimtough.mmm.mvc.controller.IndexController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

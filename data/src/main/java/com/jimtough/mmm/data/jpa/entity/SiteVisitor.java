@@ -14,6 +14,10 @@ import lombok.*;
 @Entity
 public class SiteVisitor extends BaseEntity {
 
+	public static final int NICKNAME_MIN_LENGTH = 2;
+	public static final int NICKNAME_MAX_LENGTH = 16;
+
+	@Column(length = NICKNAME_MAX_LENGTH, nullable = false)
 	private String nickname;
 	private String uppercaseNickname;
 

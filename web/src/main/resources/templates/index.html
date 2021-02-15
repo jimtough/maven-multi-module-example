@@ -40,7 +40,7 @@
 			</div>
 			<div class="col-xl-1"></div>
 		</div>
-		<div class="row">
+		<div class="row" th:if="${currentTime}">
 			<div class="col-xl-1"></div>
 			<div class="col-xl-10">
 				<div class="alert alert-info text-center">
@@ -48,6 +48,32 @@
 				</div>
 			</div>
 			<div class="col-xl-1"></div>
+		</div>
+		<div class="row" th:if="${submitVisitorNameCommand}">
+			<div class="col-xl-2"></div>
+			<div class="col-xl-8">
+				<form action="#" th:action="@{/submit-visitor-name}" th:object="${submitVisitorNameCommand}" method="post">
+					<div class="form-group row">
+						<label for="input-nickname" class="col-sm-4 text-right">Please enter a nickname: </label>
+						<div class="col-sm-5">
+							<input type="text"
+								   class="form-control"
+								   id="input-nickname"
+								   name="nickname"
+								   th:maxlength="*{nicknameMaxLength}"
+								   th:field="*{nickname}"
+								   th:classappend="${#fields.hasErrors('nickname')} ? 'is-invalid' : ''" />
+							<div class="invalid-feedback" th:text="'Must contain only letters and numbers and length between ' + *{nicknameMinLength} + ' and ' + *{nicknameMaxLength}">
+								The error feedback message goes here
+							</div>
+						</div>
+						<div class="col-sm-3 text-left">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-xl-2"></div>
 		</div>
 	</div>
 

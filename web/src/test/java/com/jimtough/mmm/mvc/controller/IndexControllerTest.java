@@ -33,6 +33,8 @@ import org.springframework.validation.FieldError;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @ExtendWith(MockitoExtension.class)
 public class IndexControllerTest {
 
@@ -59,6 +61,8 @@ public class IndexControllerTest {
 	SubmitVisitorNameCommand submitVisitorNameCommandMock;
 	@Mock
 	BindingResult bindingResultMock;
+	@Mock
+	HttpServletRequest httpServletRequestMock;
 	@Mock
 	FieldError fieldErrorMock;
 
@@ -155,7 +159,7 @@ public class IndexControllerTest {
 		when(siteVisitorRepositoryMock.save(notNull())).thenReturn(siteVisitorMock);
 		when(siteVisitRepositoryMock.save(notNull())).thenReturn(siteVisitMock);
 
-		indexController.handleSubmitVisitorName(siteVisitorSessionStuffMock, FAKE_NICKNAME);
+		indexController.handleSubmitVisitorName(siteVisitorSessionStuffMock, FAKE_NICKNAME, httpServletRequestMock);
 
 		verify(siteVisitorSessionStuffMock).setNickname(eq(FAKE_NICKNAME));
 		verify(siteVisitorRepositoryMock).save(notNull());
@@ -168,7 +172,7 @@ public class IndexControllerTest {
 				.thenReturn(Optional.of(siteVisitorMock));
 		when(siteVisitRepositoryMock.save(notNull())).thenReturn(siteVisitMock);
 
-		indexController.handleSubmitVisitorName(siteVisitorSessionStuffMock, FAKE_NICKNAME);
+		indexController.handleSubmitVisitorName(siteVisitorSessionStuffMock, FAKE_NICKNAME, httpServletRequestMock);
 
 		verify(siteVisitorSessionStuffMock).setNickname(eq(FAKE_NICKNAME));
 		verify(siteVisitorRepositoryMock, never()).save(any());
@@ -186,7 +190,7 @@ public class IndexControllerTest {
 		when(siteVisitRepositoryMock.save(notNull())).thenReturn(siteVisitMock);
 
 		String viewName = indexController.submitVisitorName(
-				modelMock, siteVisitorSessionStuffMock, submitVisitorNameCommandMock, bindingResultMock);
+				modelMock, siteVisitorSessionStuffMock, submitVisitorNameCommandMock, bindingResultMock, httpServletRequestMock);
 
 		assertEquals("redirect:/", viewName);
 		verify(siteVisitorSessionStuffMock).setNickname(eq(FAKE_NICKNAME));
@@ -204,7 +208,7 @@ public class IndexControllerTest {
 		when(worldFactoryMock.getWorld()).thenReturn("WORLD");
 
 		String viewName = indexController.submitVisitorName(
-				modelMock, siteVisitorSessionStuffMock, submitVisitorNameCommandMock, bindingResultMock);
+				modelMock, siteVisitorSessionStuffMock, submitVisitorNameCommandMock, bindingResultMock, httpServletRequestMock);
 
 		assertEquals("index", viewName);
 		verify(modelMock).addAttribute(eq("helloString"), eq("HELLO"));

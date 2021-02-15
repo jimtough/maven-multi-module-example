@@ -19,6 +19,8 @@ public class SiteVisit extends BaseEntity {
 	@CreationTimestamp
 	private ZonedDateTime visitTimestamp;
 
+	private String remoteAddress;
+
 	@ManyToOne
 	private SiteVisitor siteVisitor;
 

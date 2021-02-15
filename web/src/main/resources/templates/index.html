@@ -75,6 +75,33 @@
 			</div>
 			<div class="col-xl-2"></div>
 		</div>
+		<div class="row" th:if="${recentVisits}">
+			<div class="col-xl-12">
+				<div class="text-center mt-3">
+					<div class="h5">
+						<span><i class="fas fa-suitcase-rolling"></i></span><span>&nbsp</span><span>RECENT VISITS</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-1"></div>
+			<div class="col-xl-10 text-center mt-3">
+				<table class="table table-sm table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Visit Time</th>
+							<th>Remote Address</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="visit : ${recentVisits}">
+							<td th:text="${#temporals.format(visit.visitTimestamp, 'FULL')}">formatted visit timestamp with timezone</td>
+							<td th:text="${visit.remoteAddress}">0.1.2.3</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-xl-1"></div>
+		</div>
 	</div>
 
 	<script

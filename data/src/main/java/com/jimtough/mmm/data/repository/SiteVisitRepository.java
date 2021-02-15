@@ -1,6 +1,7 @@
 package com.jimtough.mmm.data.repository;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,5 +16,6 @@ public interface SiteVisitRepository extends JpaRepository<SiteVisit, Long> {
 	Set<SiteVisit> findByVisitTimestampAfter(ZonedDateTime zdt);
 	Set<SiteVisit> findBySiteVisitor(SiteVisitor siteVisitor);
 	Optional<SiteVisit> findFirstBySiteVisitorOrderByVisitTimestampDesc(SiteVisitor siteVisitor);
+	List<SiteVisit> findFirst10BySiteVisitorOrderByVisitTimestampDesc(SiteVisitor siteVisitor);
 
 }

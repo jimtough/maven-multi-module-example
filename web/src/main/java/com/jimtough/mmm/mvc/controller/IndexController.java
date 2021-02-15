@@ -1,8 +1,10 @@
 package com.jimtough.mmm.mvc.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -41,13 +43,27 @@ public class IndexController {
 		return "redirect:/";
 	}
 
+	private void populateModelWithSiteVisitorDetails(Model model, SiteVisitorSessionStuff siteVisitorSessionStuff) {
+		model.addAttribute("worldString", siteVisitorSessionStuff.getNickname().get());
+		if (siteVisitorSessionStuff.getSiteVisitorId().isPresent()) {
+			final Long siteVisitorId = siteVisitorSessionStuff.getSiteVisitorId().get();
+			final SiteVisitor siteVisitor = siteVisitorRepository
+					.findById(siteVisitorId)
+					.orElseThrow(()->new IllegalArgumentException("Invalid site visitor id: " + siteVisitorId));
+			List<SiteVisit> svList = siteVisitRepository.findFirst10BySiteVisitorOrderByVisitTimestampDesc(siteVisitor);
+			log.debug("Found {} visits for visitor '{}' (retrieval capped at max of 10 visits)",
+					svList.size(), siteVisitor.getUppercaseNickname());
+			model.addAttribute("recentVisits", svList);
+		}
+	}
+
 	// Support several typical home page path variants
 	@GetMapping({"","/"})
 	public String getIndexView(Model model, SiteVisitorSessionStuff siteVisitorSessionStuff) {
 		Objects.requireNonNull(siteVisitorSessionStuff);
 		model.addAttribute("helloString", helloFactory.getHello());
 		if (siteVisitorSessionStuff.getNickname().isPresent()) {
-			model.addAttribute("worldString", siteVisitorSessionStuff.getNickname().get());
+			populateModelWithSiteVisitorDetails(model, siteVisitorSessionStuff);
 		} else {
 			model.addAttribute("worldString", worldFactory.getWorld());
 			model.addAttribute("currentTime", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
@@ -56,7 +72,10 @@ public class IndexController {
 		return "index";
 	}
 
-	void handleSubmitVisitorName(SiteVisitorSessionStuff siteVisitorSessionStuff, String validNickname) {
+	void handleSubmitVisitorName(
+			SiteVisitorSessionStuff siteVisitorSessionStuff,
+			String validNickname,
+			HttpServletRequest httpServletRequest) {
 		// Save the raw (but validated) nickname in the session object
 		siteVisitorSessionStuff.setNickname(validNickname);
 		// Retrieve or create a new SiteVisitor entity
@@ -73,8 +92,14 @@ public class IndexController {
                     .uppercaseNickname(validNickname.toUpperCase())
                     .build());
 		}
+		// Save the SiteVisitor entity id in the session object
+		siteVisitorSessionStuff.setSiteVisitorId(siteVisitorEntity.getId());
+		// NOTE: This is unlikely to get an accurate remote address when app is behind a load balancer.
+		//       Need configure the load balancer (or whatever forwarded the request) to supply the source
+		//       IP address in a request header value.
+		final String remoteHostOrIpAddress = httpServletRequest.getRemoteHost();
 		// Create a new SiteVisit entity for this visit
-		siteVisitRepository.save(SiteVisit.builder().siteVisitor(siteVisitorEntity).build());
+		siteVisitRepository.save(SiteVisit.builder().siteVisitor(siteVisitorEntity).remoteAddress(remoteHostOrIpAddress).build());
 	}
 
 	@PostMapping("/submit-visitor-name")
@@ -82,11 +107,13 @@ public class IndexController {
 			Model model,
 			SiteVisitorSessionStuff siteVisitorSessionStuff,
 			@Valid SubmitVisitorNameCommand command,
-			BindingResult bindingResult) {
+			BindingResult bindingResult,
+			HttpServletRequest httpServletRequest) {
 		Objects.requireNonNull(model);
 		Objects.requireNonNull(siteVisitorSessionStuff);
 		Objects.requireNonNull(command);
 		Objects.requireNonNull(bindingResult);
+		Objects.requireNonNull(httpServletRequest);
 		if (bindingResult.hasErrors()) {
 			log.info("submitVisitorName() | {} has errors", BindingResult.class.getSimpleName());
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -96,7 +123,7 @@ public class IndexController {
 			model.addAttribute("worldString", worldFactory.getWorld());
 			return "index";
 		}
-		handleSubmitVisitorName(siteVisitorSessionStuff, command.getNickname());
+		handleSubmitVisitorName(siteVisitorSessionStuff, command.getNickname(), httpServletRequest);
 		return "redirect:/";
 	}
 

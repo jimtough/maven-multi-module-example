@@ -1,6 +1,5 @@
 package com.jimtough.mmm.bootstrap;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -48,10 +47,10 @@ public class PersistTestData implements CommandLineRunner {
 		        .favoriteColors(Set.of(blue, green))
 				.build();
 		siteVisitorRepository.saveAll(List.of(jim));
-		SiteVisit jimVisitA = SiteVisit.builder().siteVisitor(jim).build();
+		SiteVisit jimVisitA = SiteVisit.builder().siteVisitor(jim).remoteAddress("0.1.2.3").build();
 		siteVisitRepository.save(jimVisitA);
 		TimeUnit.MILLISECONDS.sleep(1);
-		SiteVisit jimVisitB = SiteVisit.builder().siteVisitor(jim).visitTimestamp(ZonedDateTime.now().minusYears(2)).build();
+		SiteVisit jimVisitB = SiteVisit.builder().siteVisitor(jim).remoteAddress("0.1.2.3").build();
 		siteVisitRepository.save(jimVisitB);
 		// SiteVisitor 'RedGreen'
 		SiteVisitor redGreen = SiteVisitor.builder()
@@ -60,7 +59,7 @@ public class PersistTestData implements CommandLineRunner {
 		                             .favoriteColors(Set.of(red, green))
 		                             .build();
 		siteVisitorRepository.saveAll(List.of(redGreen));
-		SiteVisit redgreenVisitA = SiteVisit.builder().siteVisitor(redGreen).build();
+		SiteVisit redgreenVisitA = SiteVisit.builder().siteVisitor(redGreen).remoteAddress("0.1.2.3").build();
 		siteVisitRepository.save(redgreenVisitA);
 		// SiteVisitor 'MrBlue'
 		SiteVisitor mrBlue = SiteVisitor.builder()
@@ -69,7 +68,7 @@ public class PersistTestData implements CommandLineRunner {
 		                                  .favoriteColors(Set.of(blue))
 		                                  .build();
 		siteVisitorRepository.saveAll(List.of(mrBlue));
-		SiteVisit mrBlueVisitA = SiteVisit.builder().siteVisitor(mrBlue).build();
+		SiteVisit mrBlueVisitA = SiteVisit.builder().siteVisitor(mrBlue).remoteAddress("0.1.2.3").build();
 		siteVisitRepository.save(mrBlueVisitA);
 		log.info("All {} entities persisted to database", SiteVisitor.class.getSimpleName());
 		//-------------------------------------------------------------------------------

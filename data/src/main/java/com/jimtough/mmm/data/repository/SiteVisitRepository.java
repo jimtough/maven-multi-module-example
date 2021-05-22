@@ -7,9 +7,8 @@ import java.util.Set;
 
 import com.jimtough.mmm.data.jpa.entity.SiteVisit;
 import com.jimtough.mmm.data.jpa.entity.SiteVisitor;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SiteVisitRepository extends JpaRepository<SiteVisit, Long> {
+public interface SiteVisitRepository extends MyCustomJpaRepository<SiteVisit, Long> {
 
 	// REFERENCE: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.details
 	// REFERENCE: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords

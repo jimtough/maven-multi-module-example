@@ -26,6 +26,9 @@
 			<div class="col-xl-1"></div>
 			<div class="col-xl-10">
 				<div class="alert alert-success text-center mt-3">
+					<!--
+					TODO - stop reusing 'worldString' and declare a new model attribute for the visitor nickname, plus a conditional block here (see code in IndexController)
+					-->
 					<span class="display-1" th:text="${helloString} + ', ' + ${worldString} + '!'">HELLO WORLD GOES HERE</span>
 				</div>
 			</div>
@@ -79,7 +82,7 @@
 			<div class="col-xl-12">
 				<div class="text-center mt-3">
 					<div class="h5">
-						<span><i class="fas fa-suitcase-rolling"></i></span><span>&nbsp</span><span>RECENT VISITS</span>
+						<span><i class="fas fa-suitcase-rolling"></i></span><span>&nbsp</span><span>RECENT VISITS BY </span>
 					</div>
 				</div>
 			</div>
@@ -88,7 +91,7 @@
 				<table class="table table-sm table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>Visit Time</th>
+							<th>Session Start Time</th>
 							<th>Remote Address</th>
 						</tr>
 					</thead>

@@ -1,5 +1,6 @@
 package com.jimtough.mmm.bootstrap;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +25,9 @@ public class PersistTestData implements CommandLineRunner {
 	private final SiteVisitorRepository siteVisitorRepository;
 	private final SiteVisitRepository siteVisitRepository;
 
-	@Override public void run(final String... args) throws Exception {
+	@Transactional
+	@Override
+	public void run(final String... args) throws Exception {
 		//-------------------------------------------------------------------------------
 		LanguageSpecificHello english = LanguageSpecificHello.builder().key("en").value("Hello").build();
 		LanguageSpecificHello french = LanguageSpecificHello.builder().key("fr").value("Bonjour").build();

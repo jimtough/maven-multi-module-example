@@ -32,6 +32,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes({"siteVisitorSessionStuff"})
 public class IndexController {
 
+	private static final String MODELATTR_HELLO_STRING = "helloString";
+	private static final String MODELATTR_WORLD_STRING = "worldString";
+	private static final String MODELATTR_CURRENT_TIME = "currentTime";
+
 	private final HelloFactory helloFactory;
 	private final WorldFactory worldFactory;
 	private final SiteVisitorRepository siteVisitorRepository;
@@ -44,7 +48,7 @@ public class IndexController {
 	}
 
 	private void populateModelWithSiteVisitorDetails(Model model, SiteVisitorSessionStuff siteVisitorSessionStuff) {
-		model.addAttribute("worldString", siteVisitorSessionStuff.getNickname().get());
+		model.addAttribute(MODELATTR_WORLD_STRING, siteVisitorSessionStuff.getNickname().get());
 		if (siteVisitorSessionStuff.getSiteVisitorId().isPresent()) {
 			final Long siteVisitorId = siteVisitorSessionStuff.getSiteVisitorId().get();
 			final SiteVisitor siteVisitor = siteVisitorRepository
@@ -57,16 +61,16 @@ public class IndexController {
 		}
 	}
 
-	// Support several typical home page path variants
+	// Support typical home page path variants
 	@GetMapping({"","/"})
 	public String getIndexView(Model model, SiteVisitorSessionStuff siteVisitorSessionStuff) {
 		Objects.requireNonNull(siteVisitorSessionStuff);
-		model.addAttribute("helloString", helloFactory.getHello());
+		model.addAttribute(MODELATTR_HELLO_STRING, helloFactory.getHello());
 		if (siteVisitorSessionStuff.getNickname().isPresent()) {
 			populateModelWithSiteVisitorDetails(model, siteVisitorSessionStuff);
 		} else {
-			model.addAttribute("worldString", worldFactory.getWorld());
-			model.addAttribute("currentTime", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+			model.addAttribute(MODELATTR_WORLD_STRING, worldFactory.getWorld());
+			model.addAttribute(MODELATTR_CURRENT_TIME, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 			model.addAttribute("submitVisitorNameCommand", new SubmitVisitorNameCommand());
 		}
 		return "index";
@@ -119,8 +123,9 @@ public class IndexController {
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
 				log.info("submitVisitorName() | --> [{}] | [{}]", fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			model.addAttribute("helloString", helloFactory.getHello());
-			model.addAttribute("worldString", worldFactory.getWorld());
+			// Put the initial model attribute values back when validation fails
+			model.addAttribute(MODELATTR_HELLO_STRING, helloFactory.getHello());
+			model.addAttribute(MODELATTR_WORLD_STRING, worldFactory.getWorld());
 			return "index";
 		}
 		handleSubmitVisitorName(siteVisitorSessionStuff, command.getNickname(), httpServletRequest);

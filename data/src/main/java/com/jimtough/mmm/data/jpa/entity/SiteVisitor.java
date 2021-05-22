@@ -2,6 +2,7 @@ package com.jimtough.mmm.data.jpa.entity;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import lombok.*;
@@ -21,13 +22,18 @@ public class SiteVisitor extends BaseEntity {
 	private String nickname;
 	private String uppercaseNickname;
 
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	@Builder.Default
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "siteVisitor")
-	private Set<SiteVisit> siteVisits;
+	private Set<SiteVisit> siteVisits = new HashSet<>();
 
-	@ManyToMany
+	@Setter(AccessLevel.NONE)
+	@Builder.Default
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "site_visitor_favorite_colors",
 		joinColumns = @JoinColumn(name = "color_id"),
 		inverseJoinColumns = @JoinColumn(name = "site_visitor_id"))
-	private Set<Color> favoriteColors;
+	private Set<Color> favoriteColors = new HashSet<>();
 
 }

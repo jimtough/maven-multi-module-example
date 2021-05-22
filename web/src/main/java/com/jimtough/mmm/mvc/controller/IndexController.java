@@ -35,6 +35,7 @@ public class IndexController {
 	private static final String MODELATTR_HELLO_STRING = "helloString";
 	private static final String MODELATTR_WORLD_STRING = "worldString";
 	private static final String MODELATTR_CURRENT_TIME = "currentTime";
+	private static final String MODELATTR_VISITOR_NICKNAME = "visitorNickname";
 
 	private final HelloFactory helloFactory;
 	private final WorldFactory worldFactory;
@@ -48,7 +49,7 @@ public class IndexController {
 	}
 
 	private void populateModelWithSiteVisitorDetails(Model model, SiteVisitorSessionStuff siteVisitorSessionStuff) {
-		model.addAttribute(MODELATTR_WORLD_STRING, siteVisitorSessionStuff.getNickname().get());
+		model.addAttribute(MODELATTR_VISITOR_NICKNAME, siteVisitorSessionStuff.getNickname().get());
 		if (siteVisitorSessionStuff.getSiteVisitorId().isPresent()) {
 			final Long siteVisitorId = siteVisitorSessionStuff.getSiteVisitorId().get();
 			final SiteVisitor siteVisitor = siteVisitorRepository

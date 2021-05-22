@@ -26,10 +26,14 @@
 			<div class="col-xl-1"></div>
 			<div class="col-xl-10">
 				<div class="alert alert-success text-center mt-3">
-					<!--
-					TODO - stop reusing 'worldString' and declare a new model attribute for the visitor nickname, plus a conditional block here (see code in IndexController)
-					-->
-					<span class="display-1" th:text="${helloString} + ', ' + ${worldString} + '!'">HELLO WORLD GOES HERE</span>
+					<div th:if="${visitorNickname}">
+						<!-- The 'visitorNickname' model attribute is defined, so display it -->
+						<span class="display-1" th:text="${helloString} + ', ' + ${visitorNickname} + '.'">HELLO SITE VISITOR NICKNAME GOES HERE</span>
+ 					</div>
+					<div th:unless="${visitorNickname}">
+						<!-- No 'visitorNickname' model attribute is defined, so display the Hello World text -->
+						<span class="display-1" th:text="${helloString} + ', ' + ${worldString} + '!'">HELLO WORLD GOES HERE</span>
+					</div>
 				</div>
 			</div>
 			<div class="col-xl-1"></div>
@@ -82,7 +86,7 @@
 			<div class="col-xl-12">
 				<div class="text-center mt-3">
 					<div class="h5">
-						<span><i class="fas fa-suitcase-rolling"></i></span><span>&nbsp</span><span>RECENT VISITS BY </span>
+						<span><i class="fas fa-suitcase-rolling"></i></span><span>&nbsp</span><span th:text="'RECENT VISITS BY ' + ${#strings.toUpperCase(visitorNickname)}">RECENT VISITS BY USER-NICKNAME</span>
 					</div>
 				</div>
 			</div>
